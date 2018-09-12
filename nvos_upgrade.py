@@ -38,12 +38,9 @@ class Ssh_Util:
         self.pkey = devices.PKEY
         self.port = devices.PORT
         self.platform = devices.PLATFORM
-        #self.uploadremotefilepath = devices.UPLOADREMOTEFILEPATH
-        #self.uploadlocalfilepath = devices.UPLOADLOCALFILEPATH
 
 
     def nos_connect(self,hosts):
-        #print "===> Login to the remote switch (network OS access)\n"
         try:
             print "===> Connecting to switch",hosts,"(network os)"
             if hosts in devices.TME_BE_SWITCHES:
@@ -65,15 +62,11 @@ class Ssh_Util:
         result_flag = True
         try:
             if self.nos_connect(hosts):
-                #output = self.device.send_command('admin-sftp-show')
-                #print '1st output is:\n' + output + '\n'
                 print '===> Enabling SFTP on {}'.format(hosts)
                 output = self.device.send_command_timing('admin-sftp-modify enable', strip_command=False, strip_prompt=False)
-                print 'Output is:\n' + output + '\n'
                 time.sleep(3)
                 while 'sftp password' in output:
                     output = self.device.send_command_timing("test123\n", strip_command=False, strip_prompt=False)
-                    print '3rd output is:\n' + output + '\n'
             else:
                 print "Could not establish SSH connection to",hosts
                 result_flag = False
@@ -88,22 +81,11 @@ class Ssh_Util:
     def upload_file(self,hosts,uploadlocalfilepath,uploadremotefilepath):
         "This method uploads the file to the remote switch"
         result_flag = True
-        #ftp_client = None
         try:
-#            if self.nos_connect(hosts):
             print '===> Uploading Netvisor OS image {} to {}'.format(uploadlocalfilepath,hosts)
             s = sftp.Connection(host=hosts, username='sftp', password=self.default_password)
-    		#remotepath = 'import/nvOS-3.0.4-3000413315-onvl.pkg'
-    		#localpath = '/Users/pierregi/python/netpy/nvOS-3.0.4-3000413315-onvl.pkg'
             s.put(uploadlocalfilepath,uploadremotefilepath)
             s.close()
-            #ftp_client = self.device.open_sftp()
-            #ftp_client.put(uploadlocalfilepath,uploadremotefilepath)
-            #ftp_client.close()
-            #self.device.close()
-#            else:
-#                print "Could not establish SSH connection to",hosts
-#                result_flag = False
         except Exception,e:
             print '\nUnable to upload the file to the remote server',uploadremotefilepath
             print 'PYTHON SAYS:',e
@@ -117,15 +99,10 @@ class Ssh_Util:
     def execute_nos_upgrade(self,hosts,upgrade_package):
         result_flag = True
         try:
-#            if self.nos_connect(hosts):
-            #    for command in commands:
             print '===> Upgrading Netvisor OS image to {} on {}'.format(upgrade_package.strip('import/'),hosts)
             output = self.device.send_command('software-upgrade package '+upgrade_package)
             print output
             self.device.disconnect()
-#            else:
-#                print "Could not establish SSH connection to",hosts
-#                result_flag = False
         except netmiko.ssh_exception.NetMikoTimeoutException as sshTimeout:
             print "Could not connect to the switch: %s" % sshTimeout
             result_flag = False
@@ -145,8 +122,6 @@ if __name__=='__main__':
     ssh_obj = Ssh_Util()
 
     hosts = devices.TESTBED
-    #hosts = ['10.36.10.35', '10.36.10.36', '10.36.10.37', '10.36.10.38']
-    #hosts = ['10.36.10.37']
     print 'Please provide Netvisor OS image name for this upgrade:  '
     source_file_path = raw_input('Netvisor OS: ')
     sftp_password = getpass.getpass('SFTP password: ')
