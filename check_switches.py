@@ -102,7 +102,7 @@ class Ssh_Util:
 
 
     def nos_connect(self,hosts):
-        print "===> Login to the remote switch (network OS access)\n"
+        #print "===> Login to the remote switch (network OS access)\n"
         try:
             print "===> Connecting to switch",hosts,"(network os)"
             if hosts in devices.TME_BE_SWITCHES:
@@ -227,11 +227,12 @@ if __name__=='__main__':
     #Initialize the ssh object
     ssh_obj = Ssh_Util()
 
-    hosts = devices.EBC_DELL_SWITCHES
-    shell_commands = ['lsblk', 'sudo -S parted /dev/sda print', 'sudo -S parted /dev/sdb print']
+    hosts = ['10.36.10.35', '10.36.10.36', '10.36.10.37', '10.36.10.38', '10.36.10.43', '10.36.10.44']
+    #hosts = devices.EBC_DELL_SWITCHES
+    #shell_commands = ['lsblk', 'sudo -S parted /dev/sda print', 'sudo -S parted /dev/sdb print']
     #shell_commands = ['sudo uname -a']
-    nos_commands = ['switch-local switch-info-show format switch,model,chassis-serial,system-mem,disk-model,disk-type,disk-firmware', 'switch-local switch-setup-show format device-id']
-    #nos_commands = ['switch-local switch-info-show format switch,model,chassis-serial']
+    #nos_commands = ['switch-local switch-info-show format switch,model,chassis-serial,system-mem,disk-model,disk-type,disk-firmware', 'switch-local switch-setup-show format device-id']
+    nos_commands = ['software-show format version']
 
 #    print """
 #+------------------------------------------------------------------------------+
@@ -241,7 +242,7 @@ if __name__=='__main__':
     for host in hosts:
         print "=" * 80
         ssh_obj.execute_nos_command(host,nos_commands)
-        ssh_obj.execute_shell_command(host,shell_commands)
+        #ssh_obj.execute_shell_command(host,shell_commands)
     #for host in hosts:
     #    if ssh_obj.execute_shell_command(host,ssh_obj.commands) is True:
     #        print ""
