@@ -42,7 +42,7 @@ class Ssh_Util:
 
     def nos_connect(self,hosts):
         try:
-            print "===> Connecting to switch",hosts,"(network os)"
+            print "===> Connecting to switch",hosts
             if hosts in devices.TME_BE_SWITCHES:
                 self.device = ConnectHandler(device_type=self.platform, ip=hosts, username=self.nos_username, password=self.tme_password)
             elif hosts in devices.EBC_ACCTON_SWITCHES_2 or hosts in devices.EBC_DELL_SWITCHES_2:
@@ -123,7 +123,7 @@ if __name__=='__main__':
 
     hosts = devices.TESTBED
     print 'Please provide Netvisor OS image name for this upgrade:  '
-    source_file_path = raw_input('Netvisor OS: ')
+    source_file_path = raw_input('New Netvisor OS image path: ')
     sftp_password = getpass.getpass('SFTP password: ')
     dest_file_path = 'import/'+source_file_path
     print dest_file_path
