@@ -232,7 +232,7 @@ if __name__=='__main__':
     #shell_commands = ['lsblk', 'sudo -S parted /dev/sda print', 'sudo -S parted /dev/sdb print']
     #shell_commands = ['sudo uname -a']
     #nos_commands = ['switch-local switch-info-show format switch,model,chassis-serial,system-mem,disk-model,disk-type,disk-firmware', 'switch-local switch-setup-show format device-id']
-    nos_commands = ['software-show format version']
+    nos_commands = ['fabric-node-show sort-asc name']
 
 #    print """
 #+------------------------------------------------------------------------------+
@@ -240,7 +240,8 @@ if __name__=='__main__':
 #+------------------------------------------------------------------------------+
 #    """
     for host in hosts:
-        print "=" * 80
+        print ""
+        print "=" * 100
         ssh_obj.execute_nos_command(host,nos_commands)
         #ssh_obj.execute_shell_command(host,shell_commands)
     #for host in hosts:

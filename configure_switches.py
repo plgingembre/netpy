@@ -84,9 +84,9 @@ if __name__=='__main__':
     ssh_obj = Ssh_Util()
 
     #hosts = devices.TESTBED
-    #hosts = ['10.36.10.35', '10.36.10.36', '10.36.10.37', '10.36.10.38']
-    hosts = ['10.36.10.37']
-    nos_commands = ['fabric-node-show']
+    hosts = ['10.36.10.35', '10.36.10.36', '10.36.10.37', '10.36.10.38']
+    #hosts = ['10.36.10.37']
+    nos_commands = ['switch-local port-config-modify port 57-58 speed 10g enable']
 
     for host in hosts:
         print "=" * 80
